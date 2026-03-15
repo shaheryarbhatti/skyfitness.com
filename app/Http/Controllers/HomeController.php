@@ -41,7 +41,7 @@ class HomeController extends Controller
 
         // 3. Fetch Recent Activity (Last 5 users who logged in)
         // We exclude sensitive roles if necessary, or show all
-        $recentActivity = User::whereNotNull('last_login_at')
+        $recentActivity = User::whereNotNull('last_login_at')->withoutRole('Super Admin')
             ->orderBy('last_login_at', 'desc')
             ->take(5)
             ->get();
