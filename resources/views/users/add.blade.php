@@ -42,24 +42,28 @@
                             </div>
                             @endif
 
-                            <form method="POST" action="{{ route('users.store') }}" class="theme-form">
+                            <form method="POST" enctype="multipart/form-data" action="{{ route('users.store') }}"
+                                class="theme-form">
                                 @csrf
 
                                 <div class="row g-4">
                                     <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12">
 
                                         <div class="mb-3">
-                                            <label class="col-form-label" for="name">{{ __('name') }} <span class="text-danger">*</span></label>
+                                            <label class="col-form-label" for="name">{{ __('name') }} <span
+                                                    class="text-danger">*</span></label>
                                             <input type="text" name="name" id="name"
                                                 class="form-control @error('name') is-invalid @enderror"
-                                                value="{{ old('name') }}" placeholder="{{ __('name') }}" required autofocus>
+                                                value="{{ old('name') }}" placeholder="{{ __('name') }}" required
+                                                autofocus>
                                             @error('name')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
 
                                         <div class="mb-3">
-                                            <label class="col-form-label" for="email">{{ __('email') }} <span class="text-danger">*</span></label>
+                                            <label class="col-form-label" for="email">{{ __('email') }} <span
+                                                    class="text-danger">*</span></label>
                                             <input type="email" name="email" id="email"
                                                 class="form-control @error('email') is-invalid @enderror"
                                                 value="{{ old('email') }}" placeholder="{{ __('email') }}" required>
@@ -73,7 +77,8 @@
                                     <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12">
 
                                         <div class="mb-3">
-                                            <label class="col-form-label" for="password">{{ __('password') }} <span class="text-danger">*</span></label>
+                                            <label class="col-form-label" for="password">{{ __('password') }} <span
+                                                    class="text-danger">*</span></label>
                                             <input type="password" name="password" id="password"
                                                 class="form-control @error('password') is-invalid @enderror"
                                                 placeholder="{{ __('password') }}" required>
@@ -83,9 +88,11 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label class="col-form-label" for="password_confirmation">{{ __('confirm_password') }} <span class="text-danger">*</span></label>
-                                            <input type="password" name="password_confirmation" id="password_confirmation"
-                                                class="form-control"
+                                            <label class="col-form-label"
+                                                for="password_confirmation">{{ __('confirm_password') }} <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="password" name="password_confirmation"
+                                                id="password_confirmation" class="form-control"
                                                 placeholder="{{ __('confirm_password') }}" required>
                                         </div>
 
@@ -99,11 +106,38 @@
                                             <select name="role_id" id="role_id" class="form-select">
                                                 <option value="">Select Role</option>
                                                 @foreach($roles as $role)
-                                                <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                                                <option value="{{ $role->id }}"
+                                                    {{ old('role_id') == $role->id ? 'selected' : '' }}>
+                                                    {{ $role->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
 
+                                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 d-flex align-items-center">
+                                            <div class="mb-3">
+                                                <div class="form-check form-switch form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" name="status"
+                                                        id="status" {{ old('status', $user->status) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="status">{{ __('status') }}
+                                                        ({{ __('active') }})</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12">
+                                        <div class="mb-3">
+                                            <label class="col-form-label" for="image">{{ __('user_image') }}</label>
+                                            <input type="file" name="image" id="image"
+                                                class="form-control @error('image') is-invalid @enderror">
+                                            @if(isset($user) && $user->image)
+                                            <small class="text-muted">Current: {{ basename($user->image) }}</small>
+                                            @endif
+                                            @error('image')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
 

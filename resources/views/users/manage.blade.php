@@ -20,45 +20,47 @@
     @section('content')
 
     <div class="page-body">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card" style="margin-top: 20px;">
-                    <div class="card-header pb-0 d-flex justify-content-between align-items-center">
-                        <h4 class="mb-0">{{ __('manage_users') }}</h4>
-                        <a href="{{ route('users.add') }}" class="btn btn-primary">
-                            <i class="fa fa-plus me-2"></i> {{ __('add_new_user') }}
-                        </a>
-                    </div>
-
-                    <div class="card-body">
-                        @if (session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('success') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card" style="margin-top: 20px;">
+                        <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">{{ __('manage_users') }}</h4>
+                            <a href="{{ route('users.add') }}" class="btn btn-primary">
+                                <i class="fa fa-plus me-2"></i> {{ __('add_new_user') }}
+                            </a>
                         </div>
-                        @endif
 
-                        <div class="table-responsive custom-scrollbar mb-4">
-                            <table id="usersTable" class="display table table-hover table-bordered" style="width:100%">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>{{ __('name') }}</th>
-                                        <th>{{ __('email') }}</th>
-                                        <th>{{ __('role') }}</th>
-                                        <th>{{ __('action') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                        <div class="card-body">
+                            @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                            @endif
+
+                            <div class="table-responsive custom-scrollbar mb-4">
+                                <table id="usersTable" class="display table table-hover table-bordered"
+                                    style="width:100%">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>{{ __('name') }}</th>
+                                            <th>{{ __('email') }}</th>
+                                            <th>{{ __('role') }}</th>
+                                            <th>{{ __('status') }}</th>
+                                            <th>{{ __('action') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
     @endsection
 
@@ -188,6 +190,11 @@
                     data: 'role',
                     name: 'role',
                     orderable: false
+                },
+                {
+                    data: 'status',
+                    name: 'status',
+                    orderable: true
                 },
                 {
                     data: 'action',

@@ -14,7 +14,7 @@
     <meta name="author" content="skyfitnessgym.com">
     <link rel="icon" href="{{ asset('public/assets/images/favicon.png')}}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('public/assets/images/favicon.png')}}" type="image/x-icon">
-    <title>{{ __('manage_member') }}</title>
+    <title>{{ __('manage_members') }}</title>
 
     @extends('layouts.app')
     @section('content')

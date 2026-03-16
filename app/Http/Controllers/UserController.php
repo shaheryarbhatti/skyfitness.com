@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -16,18 +15,37 @@ class UserController extends Controller
     {
         if (request()->ajax()) {
             $query = User::with('roles')
-                ->whereDoesntHave('roles', function($q) {
+                ->whereDoesntHave('roles', function ($q) {
                     $q->where('name', 'Super Admin');
                 })
                 ->select('users.*');
 
             return datatables()->of($query)
                 ->addIndexColumn()
+            // Transform the name column to include the avatar
+                ->editColumn('name', function ($user) {
+                    $url = $user->image
+                        ? asset('public/storage/' . $user->image)
+                        : asset('public/assets/images/dashboard/profile.png');
+
+                    return '<div class="d-flex align-items-center">
+                            <img src="' . $url . '" class="rounded-circle me-2"
+                                 style="width: 35px; height: 35px; object-fit: cover; border: 1px solid #eee;">
+                            <span>' . $user->name . '</span>
+                        </div>';
+                })
                 ->addColumn('role', function ($user) {
                     return $user->roles->first()->name ?? 'No Role';
                 })
+                // Add the status badge column
+                ->addColumn('status', function ($user) {
+                    $statusClass = $user->status ? 'badge-light-success' : 'badge-light-danger';
+                    $statusText  = $user->status ? __('active') : __('inactive');
+
+                    return '<span class="badge rounded-pill ' . $statusClass . '">' . $statusText . '</span>';
+                })
                 ->addColumn('action', function ($user) {
-                    $edit = '<a href="' . route('users.edit', $user->id) . '" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>';
+                    $edit   = '<a href="' . route('users.edit', $user->id) . '" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>';
                     $delete = '<form action="' . route('users.destroy', $user->id) . '" method="POST" style="display:inline;">
                             ' . csrf_field() . method_field('DELETE') . '
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Are you sure?\')"><i class="fa fa-trash"></i></button>
@@ -35,7 +53,8 @@ class UserController extends Controller
 
                     return '<div class="action d-flex gap-2">' . $edit . $delete . '</div>';
                 })
-                ->rawColumns(['action'])
+            // Ensure 'status' is added to rawColumns
+                ->rawColumns(['name', 'status', 'action'])
                 ->make(true);
         }
 
@@ -57,23 +76,29 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-            'role_id' => 'nullable|exists:roles,id',
+            'role_id'  => 'nullable|exists:roles,id',
+            'image'    => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $validated['password'] = Hash::make($validated['password']);
+        $validated['status'] = $request->has('status') ? 1 : 0;
 
-        $user = User::create($validated);
-
-        if ($request->role_id) {
-            $role = Role::find($request->role_id);
-            $user->assignRole($role);
+        // Handle Image Upload
+        if ($request->hasFile('image')) {
+            $path               = $request->file('image')->store('members', 'public');
+            $validated['image'] = $path;
         }
 
-        return redirect()->route('users.add')
-            ->with('success', 'User created successfully.');
+        $validated['password'] = Hash::make($validated['password']);
+        $user                  = User::create($validated);
+
+        if ($request->role_id) {
+            $user->assignRole(Role::find($request->role_id));
+        }
+
+        return redirect()->route('users.add')->with('success', 'User created successfully.');
     }
 
     /**
@@ -99,11 +124,24 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
-            'role_id' => 'nullable|exists:roles,id',
+            'role_id'  => 'nullable|exists:roles,id',
+            'image'    => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        $validated['status'] = $request->has('status') ? 1 : 0;
+        // Handle Image Update
+        if ($request->hasFile('image')) {
+            // Delete old image if it exists
+            if ($user->image) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($user->image);
+            }
+
+            $path               = $request->file('image')->store('members', 'public');
+            $validated['image'] = $path;
+        }
 
         if ($request->filled('password')) {
             $validated['password'] = Hash::make($validated['password']);
@@ -113,16 +151,11 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        // Update role
         if ($request->role_id) {
-            $role = Role::find($request->role_id);
-            $user->syncRoles([$role->name]);
-        } else {
-            $user->syncRoles([]);
+            $user->syncRoles([Role::find($request->role_id)->name]);
         }
 
-        return redirect()->route('users.manage')
-            ->with('success', 'User updated successfully.');
+        return redirect()->route('users.manage')->with('success', 'User updated successfully.');
     }
 
     /**
@@ -130,6 +163,9 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if ($user->image && Storage::disk('public')->exists($user->image)) {
+            Storage::disk('public')->delete($user->image);
+        }
         $user->delete();
 
         return redirect()->route('users.manage')

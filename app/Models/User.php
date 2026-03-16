@@ -25,6 +25,7 @@ class User extends Authenticatable
         'image',
         'last_login_at',
         'remember_token',
+        'status'
     ];
 
     /**

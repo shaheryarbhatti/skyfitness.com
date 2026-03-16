@@ -157,6 +157,8 @@
     "Check-in successful! Welcome to Sky Fitness.": "Check-in successful! Welcome to Sky Fitness.",
     "Check-out successful! Have a great day.": "Check-out successful! Have a great day.",
     "Today": "Today",
-    "attendance_instruction": "Tap the button below to record your visit. We will save your current date and time automatically."
+    "attendance_instruction": "Tap the button below to record your visit. We will save your current date and time automatically.",
+    "update_user": "Update User",
+    "user_image": "User Image"
 
 }

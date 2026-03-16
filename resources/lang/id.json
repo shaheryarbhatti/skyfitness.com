@@ -152,6 +152,7 @@
     "You are currently in the gym": "Anda sedang berada di dalam gym",
     "Check-in successful! Welcome to Sky Fitness.": "Absensi masuk berhasil! Selamat datang di Sky Fitness.",
     "Check-out successful! Have a great day.": "Absensi keluar berhasil! Semoga hari Anda menyenangkan.",
-    "attendance_instruction": "Ketuk tombol di bawah untuk mencatat kunjungan Anda. Kami akan menyimpan tanggal dan waktu Anda saat ini secara otomatis."
+    "attendance_instruction": "Ketuk tombol di bawah untuk mencatat kunjungan Anda. Kami akan menyimpan tanggal dan waktu Anda saat ini secara otomatis.",
+    "user_image": "Foto Pengguna"
 
 }

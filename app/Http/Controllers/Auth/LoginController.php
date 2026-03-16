@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -36,5 +35,16 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
+    }
+
+    protected function credentials(\Illuminate\Http\Request $request)
+    {
+        // Get the standard email and password
+        $credentials = $request->only($this->username(), 'password');
+
+        // Add the status condition
+        $credentials['status'] = 1;
+
+        return $credentials;
     }
 }
