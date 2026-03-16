@@ -89,7 +89,7 @@
                                         <span class="lang-txt box-col-none">EN</span>
                                         @elseif (app()->getLocale() === 'id')
                                         <i class="flag-icon flag-icon-id"></i>
-                                        <span class="lang-txt box-col-none">ID</span>
+                                        <span class="lang-txt box-col-none">IDR</span>
                                         @else
                                         <!-- Fallback to English -->
                                         <i class="flag-icon flag-icon-us"></i>
