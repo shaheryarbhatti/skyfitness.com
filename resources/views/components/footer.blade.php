@@ -72,7 +72,7 @@
 <!-- Plugins JS Ends-->
 <!-- Theme js-->
 <script src="{{asset('public/assets/js/script.js')}}"></script>
-<!-- <script src="{{asset('public/assets/js/theme-customizer/customizer.js')}}"></script> -->
+<script src="{{asset('public/assets/js/theme-customizer/customizer.js')}}"></script>
 <!-- Plugin used-->
 @stack('styles')
 @stack('scripts')

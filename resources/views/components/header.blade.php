@@ -60,11 +60,9 @@
                                 src="{{asset('public/assets/images/logo/logo.png')}}" alt=""><img
                                 class="img-fluid for-dark" src="{{asset('public/assets/images/logo/logo_dark.png')}}"
                                 alt=""></a></div>
-                    <div class="toggle-sidebar">
-                        <svg class="sidebar-toggle">
-                            <use href="https://admin.pixelstrap.net/zono/assets/svg/icon-sprite.svg#stroke-animation">
-                            </use>
-                        </svg>
+                    <div class="toggle-sidebar d-block d-lg-none d-flex align-items-center justify-content-center"
+                        style="height: 40px; width: 40px;">
+                        <i class="fa fa-bars" style="color: #000000; font-size: 24px; cursor: pointer;"></i>
                     </div>
                 </div>
                 <form class="col-sm-4 form-inline search-full d-none d-xl-block" action="#" method="get">
@@ -128,7 +126,8 @@
                                     src="{{ Auth::user()->image ? asset('public/storage/' . Auth::user()->image) : asset('public/assets/images/dashboard/profile.png') }}"
                                     alt="User Profile" style="width: 40px; height: 40px; object-fit: cover;">
                                 <div class="flex-grow-1 user"><span>{{ Auth::user()->name ?? 'Admin' }}</span>
-                                    <p class="mb-0 font-nunito">{{ Auth::user()->roles->pluck('name')->first() ?? __('Guest') }}
+                                    <p class="mb-0 font-nunito">
+                                        {{ Auth::user()->roles->pluck('name')->first() ?? __('Guest') }}
                                         <svg>
                                             <use
                                                 href="https://admin.pixelstrap.net/zono/assets/svg/icon-sprite.svg#header-arrow-down">
