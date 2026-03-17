@@ -108,6 +108,38 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <hr class="my-4">
+
+                            <div class="row">
+                                <div class="col-12 mb-2">
+                                    <h5 class="mb-1">Login Page Text</h5>
+                                    <p class="text-muted mb-0">Control the right-side headline and bullet points on the login page.</p>
+                                </div>
+
+                                <div class="col-sm-12 mb-3">
+                                    <label class="form-label fw-bold">Login Heading</label>
+                                    <input type="text" name="login_heading" class="form-control"
+                                           value="{{ \App\Models\Setting::get('login_heading', 'Train Smarter, Track Faster') }}">
+                                </div>
+
+                                <div class="col-sm-12 mb-3">
+                                    <label class="form-label fw-bold">Login Description</label>
+                                    <textarea name="login_description" class="form-control" rows="3">{{ \App\Models\Setting::get('login_description', 'Streamline daily operations with member profiles, smart attendance, and simple billing in one place.') }}</textarea>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Bullet 1</label>
+                                    <input type="text" name="login_bullet_1" class="form-control"
+                                           value="{{ \App\Models\Setting::get('login_bullet_1', 'Fast member check-ins') }}">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Bullet 2</label>
+                                    <input type="text" name="login_bullet_2" class="form-control"
+                                           value="{{ \App\Models\Setting::get('login_bullet_2', 'Clean, modern reports') }}">
+                                </div>
+                            </div>
                         </div>
                         <div class="card-footer text-end">
                             <button class="btn btn-primary" type="submit">{{ __('save_settings') }}</button>
@@ -146,4 +178,3 @@
     })();
 </script>
 @endsection
-
