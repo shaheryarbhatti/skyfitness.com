@@ -137,10 +137,11 @@
                                 </div>
                             </div>
                             <ul class="profile-dropdown onhover-show-div">
-
+                                @if (Auth::user()->hasRole(['Admin', 'Super Admin']))
                                 <li><a href="{{ route('settings.index') }}"><i
                                             data-feather="settings"></i><span>{{ __('Settings') }}</span></a>
                                 </li>
+                                @endif
                                 <li><a href="{{ route('userlogout') }}"> <i
                                             data-feather="log-in"></i><span>{{ __('Log Out') }}</span></a></li>
                             </ul>
