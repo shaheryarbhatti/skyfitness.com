@@ -37,7 +37,7 @@ class UserController extends Controller
                 ->addColumn('role', function ($user) {
                     return $user->roles->first()->name ?? 'No Role';
                 })
-                // Add the status badge column
+            // Add the status badge column
                 ->addColumn('status', function ($user) {
                     $statusClass = $user->status ? 'badge-light-success' : 'badge-light-danger';
                     $statusText  = $user->status ? __('active') : __('inactive');
@@ -137,6 +137,10 @@ class UserController extends Controller
             // Delete old image if it exists
             if ($user->image) {
                 \Illuminate\Support\Facades\Storage::disk('public')->delete($user->image);
+            }
+
+            if (! \Illuminate\Support\Facades\Storage::disk('public')->exists('members')) {
+                \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('members');
             }
 
             $path               = $request->file('image')->store('members', 'public');
