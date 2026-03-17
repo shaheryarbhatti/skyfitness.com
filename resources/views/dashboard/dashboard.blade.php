@@ -14,6 +14,85 @@
 
     @extends('layouts.app')
     @section('content')
+    <style>
+        .dashboard-hero {
+            background: linear-gradient(120deg, rgba(115, 103, 240, 0.14), rgba(0, 207, 232, 0.16));
+            border-radius: 18px;
+            padding: 22px 24px;
+            box-shadow: 0 16px 40px rgba(18, 38, 63, 0.08);
+            position: relative;
+            overflow: hidden;
+            animation: heroFade 0.6s ease both;
+        }
+
+        .dashboard-hero::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            right: -60px;
+            top: -70px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.6), transparent 65%);
+            opacity: 0.6;
+        }
+
+        .stat-card {
+            border: 0;
+            border-radius: 18px;
+            overflow: hidden;
+            color: #fff;
+            box-shadow: 0 18px 36px rgba(18, 38, 63, 0.12);
+            transform: translateY(6px);
+            animation: fadeUp 0.7s ease both;
+        }
+
+        .stat-card .card-body {
+            padding: 20px 22px;
+            min-height: 150px;
+        }
+
+        .stat-card .icon-pill {
+            width: 54px;
+            height: 54px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+        }
+
+        .stat-card:hover {
+            transform: translateY(0);
+            box-shadow: 0 22px 44px rgba(18, 38, 63, 0.18);
+        }
+
+        .soft-card {
+            border-radius: 18px;
+            box-shadow: 0 14px 30px rgba(18, 38, 63, 0.08);
+        }
+
+        .activity-card,
+        .payment-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .activity-card:hover,
+        .payment-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(18, 38, 63, 0.12);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes heroFade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
     <div class="page-body">
         <div class="container-fluid">
             <div class="page-title">
@@ -35,21 +114,32 @@
 
         <div class="container-fluid">
             @if (Auth::user()->hasRole(['Admin', 'Super Admin']))
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="dashboard-hero d-flex flex-wrap align-items-center justify-content-between">
+                        <div>
+                            <h3 class="fw-bold mb-1 text-dark">{{ __('Sky Fitness Dashboard') }}</h3>
+                            <p class="text-muted mb-0">Overview of members, trainers, and recent activity.</p>
+                        </div>
+                        <div class="text-end mt-3 mt-lg-0">
+                            <span class="badge bg-primary text-white px-3 py-2" style="border-radius: 999px;">
+                                {{ now()->format('l, d M Y') }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xl-4 col-sm-6 mb-4">
-                    <div class="card o-hidden border-0 shadow-lg"
-                        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; min-height: 140px; border-radius: 15px;">
-                        <div class="card-body"
-                            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;min-height: 140px; border-radius: 15px;">
+                    <div class="card stat-card">
+                        <div class="card-body" style="background: linear-gradient(135deg, var(--theme-default), #764ba2);">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1 text-white">
                                     <h4 class="mb-1 fw-bold text-white">{{ number_format($totalMembers) }}</h4>
-                                    <p class="mb-0 fw-medium text-white" style="opacity: 1 !important;">
-                                        {{ __('Total Members') }}</p>
-                                    <small class="text-white"
-                                        style="opacity: 1 !important;">{{ __('All registered gym members') }}</small>
+                                    <p class="mb-0 fw-medium text-white">{{ __('Total Members') }}</p>
+                                    <small class="text-white opacity-75">{{ __('All registered gym members') }}</small>
                                 </div>
-                                <div class="bg-white bg-opacity-25 p-3 rounded-circle shadow-sm">
+                                <div class="icon-pill">
                                     <i class="fa fa-users text-white fa-2x"></i>
                                 </div>
                             </div>
@@ -58,19 +148,15 @@
                 </div>
 
                 <div class="col-xl-4 col-sm-6 mb-4">
-                    <div class="card o-hidden border-0 shadow-lg"
-                        style="background: linear-gradient(135deg, #ff6a88 0%, #ff99ac 100%) !important; min-height: 140px; border-radius: 15px;">
-                        <div class="card-body"
-                            style="background: linear-gradient(135deg, #ff6a88 0%, #ff99ac 100%) !important;min-height: 140px; border-radius: 15px;">
+                    <div class="card stat-card">
+                        <div class="card-body" style="background: linear-gradient(135deg, #ff6a88, #ff99ac);">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1 text-white">
                                     <h4 class="mb-1 fw-bold text-white">{{ number_format($activeMembers) }}</h4>
-                                    <p class="mb-0 fw-medium text-white" style="opacity: 1 !important;">
-                                        {{ __('Active Members') }}</p>
-                                    <small class="text-white"
-                                        style="opacity: 1 !important;">{{ __('Members currently active') }}</small>
+                                    <p class="mb-0 fw-medium text-white">{{ __('Active Members') }}</p>
+                                    <small class="text-white opacity-75">{{ __('Members currently active') }}</small>
                                 </div>
-                                <div class="bg-white bg-opacity-25 p-3 rounded-circle shadow-sm">
+                                <div class="icon-pill">
                                     <i class="fa-regular fa-circle-check text-white fa-2x"></i>
                                 </div>
                             </div>
@@ -79,19 +165,15 @@
                 </div>
 
                 <div class="col-xl-4 col-sm-6 mb-4">
-                    <div class="card o-hidden border-0 shadow-lg"
-                        style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important; min-height: 140px; border-radius: 15px;">
-                        <div class="card-body"
-                            style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;min-height: 140px; border-radius: 15px;">
+                    <div class="card stat-card">
+                        <div class="card-body" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1 text-white">
                                     <h4 class="mb-1 fw-bold text-white">{{ number_format($totalTrainers) }}</h4>
-                                    <p class="mb-0 fw-medium text-white" style="opacity: 1 !important;">
-                                        {{ __('Total Trainers') }}</p>
-                                    <small class="text-white"
-                                        style="opacity: 1 !important;">{{ __('Sky Fitness professional staff') }}</small>
+                                    <p class="mb-0 fw-medium text-white">{{ __('Total Trainers') }}</p>
+                                    <small class="text-white opacity-75">{{ __('Sky Fitness professional staff') }}</small>
                                 </div>
-                                <div class="bg-white bg-opacity-25 p-3 rounded-circle shadow-sm">
+                                <div class="icon-pill">
                                     <i class="fa fa-id-badge text-white fa-2x"></i>
                                 </div>
                             </div>
@@ -102,7 +184,7 @@
 
             <div class="row mt-4">
                 <div class="col-xl-6 mb-4">
-                    <div class="card shadow-sm border-0" style="border-radius: 15px;">
+                    <div class="card soft-card shadow-sm border-0">
                         <div class="card-header bg-white border-bottom-0 pb-0">
                             <h4 class="fw-bold"><i
                                     class="fa fa-history text-primary me-2"></i>{{ __('Recent User Activity') }}</h4>
@@ -150,7 +232,7 @@
                 </div>
 
                 <div class="col-xl-6 mb-4">
-                    <div class="card shadow-sm border-0" style="border-radius: 15px;">
+                    <div class="card soft-card shadow-sm border-0">
                         <div class="card-header bg-white border-bottom-0 pb-0">
                             <h4 class="fw-bold"><i class="fa fa-money text-success me-2"></i>{{ __('Recent Payments') }}
                             </h4>
