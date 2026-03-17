@@ -10,6 +10,7 @@
     <link rel="icon" href="{{ asset('public/assets/images/favicon.png')}}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('public/assets/images/favicon.png')}}" type="image/x-icon">
     <title>{{ __('attendance_logs') }}</title>
+
 @extends('layouts.app')
 @section('content')
 <style>
