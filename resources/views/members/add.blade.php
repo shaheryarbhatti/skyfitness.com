@@ -171,9 +171,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        </div>
                                     </div>
-
                                     <div class="col-12 text-end mt-4">
                                         <button type="submit" class="btn btn-primary px-5 py-2">
                                             <i class="fa fa-save me-2"></i> {{ __('save_member') }}
