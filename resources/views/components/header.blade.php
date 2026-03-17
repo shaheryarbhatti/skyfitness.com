@@ -88,7 +88,10 @@
                                         <i class="flag-icon flag-icon-us"></i>
                                         <span class="lang-txt box-col-none">EN</span>
                                         @elseif (app()->getLocale() === 'id')
-                                        <i class="flag-icon flag-icon-id"></i>
+                                        <span class="d-inline-block" style="width: 20px; height: 14px; border-radius: 2px; overflow: hidden; border: 1px solid rgba(0,0,0,0.12);">
+                                            <span style="display:block; height: 50%; background: #ce1126;"></span>
+                                            <span style="display:block; height: 50%; background: #ffffff;"></span>
+                                        </span>
                                         <span class="lang-txt box-col-none">IDR</span>
                                         @else
                                         <!-- Fallback to English -->
@@ -112,7 +115,10 @@
                                         data-value="id">
                                         <a href="{{ route('language.switch', 'id') }}"
                                             style="display: flex; align-items: center; gap: 8px;">
-                                            <i class="flag-icon flag-icon-id"></i>
+                                            <span class="d-inline-block" style="width: 20px; height: 14px; border-radius: 2px; overflow: hidden; border: 1px solid rgba(0,0,0,0.12);">
+                                                <span style="display:block; height: 50%; background: #ce1126;"></span>
+                                                <span style="display:block; height: 50%; background: #ffffff;"></span>
+                                            </span>
                                             <span class="lang-txt">Bahasa Indonesia</span>
                                         </a>
                                     </div>

@@ -32,14 +32,227 @@
     <link rel="stylesheet" href="{{ asset('public/assets/css/style.css') }}">
     <link id="color" rel="stylesheet" href="{{ asset('public/assets/css/color-1.css') }}" media="screen">
     <link rel="stylesheet" href="{{ asset('public/assets/css/responsive.css') }}">
+
+    <link href="{{ asset('public/assets/fontawesome/css/fontawesome.css')}}" rel="stylesheet" />
+<link href="{{ asset('public/assets/fontawesome/css/brands.css')}}" rel="stylesheet" />
+<link href="{{ asset('public/assets/fontawesome/css/solid.css')}}" rel="stylesheet" />
+<link href="{{ asset('public/assets/fontawesome/css/sharp-thin.css')}}" rel="stylesheet" />
+<link href="{{ asset('public/assets/fontawesome/css/sharp-duotone-thin.css')}}" rel="stylesheet" />
+    <style>
+        :root {
+            --accent-1: #0f9b8e;
+            --accent-2: #3a7bd5;
+            --accent-3: #00d2ff;
+            --ink-1: #1e2330;
+            --ink-2: #5b6375;
+        }
+
+        body {
+            background: radial-gradient(1200px 600px at 10% 10%, rgba(0, 210, 255, 0.12), transparent 60%),
+                        radial-gradient(900px 500px at 90% 10%, rgba(58, 123, 213, 0.12), transparent 55%),
+                        linear-gradient(180deg, #f7f9fc 0%, #eef2f7 100%);
+            min-height: 100vh;
+        }
+
+        .login-shell {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border-radius: 999px;
+            filter: blur(0.5px);
+            opacity: 0.18;
+            animation: floaty 10s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, var(--accent-2), var(--accent-3));
+            top: 6%;
+            left: 8%;
+        }
+
+        .shape-2 {
+            width: 240px;
+            height: 240px;
+            background: linear-gradient(135deg, var(--accent-1), #7ef9ff);
+            bottom: 8%;
+            right: 12%;
+            animation-delay: -3s;
+        }
+
+        .shape-3 {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #f1c27d, #f5853f);
+            top: 55%;
+            left: 45%;
+            animation-delay: -6s;
+        }
+
+        @keyframes floaty {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+            50% { transform: translateY(-12px) translateX(8px) rotate(2deg); }
+        }
+
+        .login-hero {
+            position: relative;
+            height: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, rgba(15, 155, 142, 0.1), rgba(58, 123, 213, 0.12));
+        }
+
+        .login-hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url("{{ asset('public/assets/images/login/login_image.jpg') }}") center/cover no-repeat;
+            opacity: 0.22;
+            mix-blend-mode: multiply;
+        }
+
+        .login-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(12, 20, 32, 0.55), rgba(12, 20, 32, 0.25));
+            z-index: 1;
+        }
+
+        .login-hero .hero-content {
+            position: relative;
+            z-index: 2;
+            color: #fff;
+            text-align: left;
+            max-width: 520px;
+            animation: fadeUp 0.8s ease both;
+        }
+
+        .login-hero h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 12px;
+            text-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+            background: linear-gradient(90deg, #7ef9ff, #b8f7c1, #ffe08a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .login-hero p {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.92);
+            margin-bottom: 22px;
+            text-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+        }
+
+        .login-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 999px;
+            font-size: 0.85rem;
+            margin-bottom: 18px;
+            color: #ffffff;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .login-card {
+            position: relative;
+            padding: 36px 34px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 25px 60px rgba(17, 24, 39, 0.18);
+            animation: fadeUp 0.7s ease both;
+        }
+
+        .login-main h4 {
+            color: var(--ink-1);
+            font-weight: 700;
+        }
+
+        .login-main p {
+            color: var(--ink-2);
+        }
+
+        .theme-form .form-control {
+            border-radius: 12px;
+            padding: 12px 14px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: none;
+        }
+
+        .theme-form .form-control:focus {
+            border-color: var(--accent-2);
+            box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.15);
+        }
+
+        .btn-primary {
+            border: none;
+            border-radius: 14px;
+            padding: 12px 16px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            box-shadow: 0 12px 24px rgba(15, 155, 142, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 28px rgba(58, 123, 213, 0.25);
+            opacity: 0.95;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 1199px) {
+            .login-hero {
+                min-height: auto;
+                padding: 50px 24px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid login-shell">
+        <span class="floating-shape shape-1"></span>
+        <span class="floating-shape shape-2"></span>
+        <span class="floating-shape shape-3"></span>
         <div class="row">
             <div class="col-xl-7 order-1">
-                <img class="bg-img-cover bg-center" src="{{ asset('public/assets/images/login/login_image.jpg') }}"
-                    alt="login background">
+                <div class="login-hero">
+                    <div class="hero-content">
+                        <div class="login-badge">
+                            <i class="fa fa-heartbeat"></i>
+                            <span>Sky Fitness Gym</span>
+                        </div>
+                        <h1>Train Smarter, Track Faster</h1>
+                        <p>Streamline daily operations with member profiles, smart attendance, and simple billing in one place.</p>
+                        <div class="d-flex gap-3 align-items-center">
+                            <div class="text-white-50">
+                                <i class="fa fa-check-circle"></i> Fast member check-ins
+                            </div>
+                            <div class="text-white-50">
+                                <i class="fa fa-shield"></i> Clean, modern reports
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="col-xl-5 p-0">
