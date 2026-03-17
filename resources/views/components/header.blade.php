@@ -37,6 +37,94 @@
 <link href="{{ asset('public/assets/fontawesome/css/sharp-thin.css')}}" rel="stylesheet" />
 <link href="{{ asset('public/assets/fontawesome/css/sharp-duotone-thin.css')}}" rel="stylesheet" />
 
+@php
+    $themePrimary = \App\Models\Setting::get('theme_primary', '#7367f0');
+    $themeSecondary = \App\Models\Setting::get('theme_secondary', '#00cfe8');
+    $themeAccent = \App\Models\Setting::get('theme_accent', '#0f9b8e');
+@endphp
+<style>
+    :root {
+        --theme-default: {{ $themePrimary }};
+        --theme-secondary: {{ $themeSecondary }};
+        --theme-accent: {{ $themeAccent }};
+    }
+
+    .btn-primary,
+    .btn-primary:focus {
+        background-color: var(--theme-default) !important;
+        border-color: var(--theme-default) !important;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--theme-secondary) !important;
+        border-color: var(--theme-secondary) !important;
+    }
+
+    .btn-outline-primary {
+        color: var(--theme-default) !important;
+        border-color: var(--theme-default) !important;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: var(--theme-default) !important;
+        border-color: var(--theme-default) !important;
+        color: #ffffff !important;
+    }
+
+    .bg-primary {
+        background-color: var(--theme-default) !important;
+    }
+
+    .text-primary {
+        color: var(--theme-default) !important;
+    }
+
+    .border-primary {
+        border-color: var(--theme-default) !important;
+    }
+
+    .badge.bg-primary,
+    .badge.bg-primary.text-white {
+        background-color: var(--theme-default) !important;
+    }
+
+    .page-item.active .page-link {
+        background-color: var(--theme-default) !important;
+        border-color: var(--theme-default) !important;
+    }
+
+    .page-link:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.12);
+    }
+
+    .form-check-input:checked {
+        background-color: var(--theme-default) !important;
+        border-color: var(--theme-default) !important;
+    }
+
+    .nav-pills .nav-link.active,
+    .nav-pills .show > .nav-link {
+        background-color: var(--theme-default) !important;
+    }
+
+    .progress-bar {
+        background-color: var(--theme-default) !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: var(--theme-default) !important;
+        border-color: var(--theme-default) !important;
+        color: #ffffff !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background: var(--theme-secondary) !important;
+        border-color: var(--theme-secondary) !important;
+        color: #ffffff !important;
+    }
+</style>
+
 </head>
 
 <body>

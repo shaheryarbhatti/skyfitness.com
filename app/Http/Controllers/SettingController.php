@@ -18,7 +18,29 @@ class SettingController extends Controller
             'login_logo'     => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'admin_logo'     => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'login_bg_image' => 'nullable|image|mimes:png,jpg,jpeg|max:4096',
+            'theme_primary' => ['nullable', 'regex:/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/'],
+            'theme_primary_text' => ['nullable', 'regex:/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/'],
+            'theme_secondary' => ['nullable', 'regex:/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/'],
+            'theme_secondary_text' => ['nullable', 'regex:/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/'],
+            'theme_accent' => ['nullable', 'regex:/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/'],
+            'theme_accent_text' => ['nullable', 'regex:/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/'],
         ]);
+
+        $themePrimary = $request->input('theme_primary_text') ?: $request->input('theme_primary');
+        $themeSecondary = $request->input('theme_secondary_text') ?: $request->input('theme_secondary');
+        $themeAccent = $request->input('theme_accent_text') ?: $request->input('theme_accent');
+
+        unset($data['theme_primary_text'], $data['theme_secondary_text'], $data['theme_accent_text']);
+
+        if ($themePrimary) {
+            $data['theme_primary'] = $themePrimary;
+        }
+        if ($themeSecondary) {
+            $data['theme_secondary'] = $themeSecondary;
+        }
+        if ($themeAccent) {
+            $data['theme_accent'] = $themeAccent;
+        }
 
         foreach ($data as $key => $value) {
             if ($request->hasFile($key)) {

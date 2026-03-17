@@ -1,3 +1,7 @@
+@php
+    $themePrimary = \App\Models\Setting::get('theme_primary', '#7367f0');
+    $themeSecondary = \App\Models\Setting::get('theme_secondary', '#00cfe8');
+@endphp
 <!-- Page Sidebar Start -->
 <div class="sidebar-wrapper" data-layout="stroke-svg"
     style="background: linear-gradient(180deg, #ffffff 0%, #f6f8ff 100%); box-shadow: 0 10px 30px rgba(18, 38, 63, 0.08);">
@@ -29,7 +33,7 @@
 
                         <a class="sidebar-link link-nav"
                             href="{{ route('home') }}"
-                            style="background: linear-gradient(90deg, #5b7cfa 0%, #6dd5fa 100%); color: #fff; border-radius: 14px; padding: 12px 14px; box-shadow: 0 8px 18px rgba(91,124,250,0.25);">
+                            style="background: linear-gradient(90deg, {{ $themePrimary }} 0%, {{ $themeSecondary }} 100%); color: #fff; border-radius: 14px; padding: 12px 14px; box-shadow: 0 8px 18px rgba(0,0,0,0.15);">
                             <i class="fa fa-tachometer me-2"
                                 style="font-size: 1.1rem; color: #fff;"></i>
                             <span>{{ __('Dashboard') }}</span>
@@ -48,7 +52,7 @@
 
                         <a class="sidebar-link link-nav"
                             href="{{ route('home') }}"
-                            style="background: linear-gradient(90deg, #5b7cfa 0%, #6dd5fa 100%); color: #fff; border-radius: 14px; padding: 12px 14px; box-shadow: 0 8px 18px rgba(91,124,250,0.25);">
+                            style="background: linear-gradient(90deg, {{ $themePrimary }} 0%, {{ $themeSecondary }} 100%); color: #fff; border-radius: 14px; padding: 12px 14px; box-shadow: 0 8px 18px rgba(0,0,0,0.15);">
                             <i class="fa fa-tachometer me-2"
                                 style="font-size: 1.1rem; color: #fff;"></i>
                             <span>{{ __('Dashboard') }}</span>
@@ -83,7 +87,7 @@
                             href="javascript:void(0)"
                             style="border-radius: 12px; padding: 10px 12px; transition: all .2s ease; border: 1px solid rgba(0,0,0,0.04); background: #fff;">
                             <i class="fa {{ $module->icon }} me-2"
-                                style="font-size: 1.05rem; color: #5b7cfa;"></i>
+                                style="font-size: 1.05rem; color: {{ $themePrimary }};"></i>
                             <span style="font-weight: 600; color: #2a2f45;">{{ __($module->title) }}</span>
                         </a>
                         <ul class="sidebar-submenu" style="margin-top: 6px; margin-left: 6px;">
@@ -94,7 +98,7 @@
                             @if($hasPermission)
                             <li>
                                 <a href="{{ route($option->route) }}"
-                                    style="border-radius: 10px; padding: 9px 12px; margin: 4px 0; background: #f7f9ff; color: #3c4560; border: 1px solid rgba(91,124,250,0.12);">
+                                    style="border-radius: 10px; padding: 9px 12px; margin: 4px 0; background: #f7f9ff; color: #3c4560; border: 1px solid rgba(0,0,0,0.06);">
                                     {{ __($option->title) }}
                                 </a>
                             </li>
@@ -106,7 +110,7 @@
                             href="javascript:void(0)"
                             style="border-radius: 12px; padding: 10px 12px; transition: all .2s ease; border: 1px solid rgba(0,0,0,0.04); background: #fff;">
                             <i class="fa {{ $module->icon }} me-2"
-                                style="font-size: 1.05rem; color: #5b7cfa;"></i>
+                                style="font-size: 1.05rem; color: {{ $themePrimary }};"></i>
                             <span style="font-weight: 600; color: #2a2f45;">{{ __($module->title) }}</span>
                         </a>
                         @endif

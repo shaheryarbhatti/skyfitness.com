@@ -38,11 +38,16 @@
 <link href="{{ asset('public/assets/fontawesome/css/solid.css')}}" rel="stylesheet" />
 <link href="{{ asset('public/assets/fontawesome/css/sharp-thin.css')}}" rel="stylesheet" />
 <link href="{{ asset('public/assets/fontawesome/css/sharp-duotone-thin.css')}}" rel="stylesheet" />
+    @php
+        $themePrimary = \App\Models\Setting::get('theme_primary', '#0f9b8e');
+        $themeSecondary = \App\Models\Setting::get('theme_secondary', '#3a7bd5');
+        $themeAccent = \App\Models\Setting::get('theme_accent', '#00d2ff');
+    @endphp
     <style>
         :root {
-            --accent-1: #0f9b8e;
-            --accent-2: #3a7bd5;
-            --accent-3: #00d2ff;
+            --accent-1: {{ $themePrimary }};
+            --accent-2: {{ $themeSecondary }};
+            --accent-3: {{ $themeAccent }};
             --ink-1: #1e2330;
             --ink-2: #5b6375;
         }
@@ -141,7 +146,7 @@
             line-height: 1.1;
             margin-bottom: 12px;
             text-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-            background: linear-gradient(90deg, #7ef9ff, #b8f7c1, #ffe08a);
+            background: linear-gradient(90deg, var(--accent-2), var(--accent-1), var(--accent-3));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;

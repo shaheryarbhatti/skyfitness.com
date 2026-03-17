@@ -60,6 +60,48 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <hr class="my-4">
+
+                            <div class="row">
+                                <div class="col-12 mb-2">
+                                    <h5 class="mb-1">Theme Colors</h5>
+                                    <p class="text-muted mb-0">These colors control buttons, pagination, badges, links, and highlights across the project.</p>
+                                </div>
+
+                                <div class="col-xl-4 col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Primary Color</label>
+                                    <div class="input-group">
+                                        <input type="color" name="theme_primary" class="form-control form-control-color"
+                                               value="{{ \App\Models\Setting::get('theme_primary', '#7367f0') }}">
+                                        <input type="text" name="theme_primary_text" class="form-control"
+                                               value="{{ \App\Models\Setting::get('theme_primary', '#7367f0') }}"
+                                               placeholder="#7367f0">
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4 col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Secondary Color</label>
+                                    <div class="input-group">
+                                        <input type="color" name="theme_secondary" class="form-control form-control-color"
+                                               value="{{ \App\Models\Setting::get('theme_secondary', '#00cfe8') }}">
+                                        <input type="text" name="theme_secondary_text" class="form-control"
+                                               value="{{ \App\Models\Setting::get('theme_secondary', '#00cfe8') }}"
+                                               placeholder="#00cfe8">
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4 col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Accent Color</label>
+                                    <div class="input-group">
+                                        <input type="color" name="theme_accent" class="form-control form-control-color"
+                                               value="{{ \App\Models\Setting::get('theme_accent', '#0f9b8e') }}">
+                                        <input type="text" name="theme_accent_text" class="form-control"
+                                               value="{{ \App\Models\Setting::get('theme_accent', '#0f9b8e') }}"
+                                               placeholder="#0f9b8e">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-footer text-end">
                             <button class="btn btn-primary" type="submit">{{ __('save_settings') }}</button>
@@ -70,4 +112,31 @@
         </div>
     </div>
 </div>
+<script>
+    (function() {
+        const pairs = [
+            { color: 'theme_primary', text: 'theme_primary_text' },
+            { color: 'theme_secondary', text: 'theme_secondary_text' },
+            { color: 'theme_accent', text: 'theme_accent_text' }
+        ];
+
+        const isHex = (val) => /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(val);
+
+        pairs.forEach((pair) => {
+            const colorInput = document.querySelector(`input[name="${pair.color}"]`);
+            const textInput = document.querySelector(`input[name="${pair.text}"]`);
+            if (!colorInput || !textInput) return;
+
+            colorInput.addEventListener('input', () => {
+                textInput.value = colorInput.value;
+            });
+
+            textInput.addEventListener('input', () => {
+                if (isHex(textInput.value)) {
+                    colorInput.value = textInput.value;
+                }
+            });
+        });
+    })();
+</script>
 @endsection
