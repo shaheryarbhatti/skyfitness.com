@@ -137,12 +137,9 @@ Route::middleware(['auth'])->prefix('settings')->group(function () {
 
 // Attendance Management Routes
 Route::middleware(['auth'])->prefix('attendance')->group(function () {
-    Route::get('/', [AttendanceController::class, 'index'])->name('attendance.index');
+    Route::get('/', [AttendanceController::class, 'index'])->name('attendance.manage');
     Route::get('/create', [AttendanceController::class, 'create'])->name('attendance.create');
-
-    // This is the missing route:
     Route::post('/store', [AttendanceController::class, 'store'])->name('attendance.store');
-
     Route::get('/{attendance}/edit', [AttendanceController::class, 'edit'])->name('attendance.edit');
     Route::put('/{attendance}', [AttendanceController::class, 'update'])->name('attendance.update');
 });

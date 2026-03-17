@@ -18,4 +18,10 @@ class Attendance extends Model
         'checkout_time'   => 'datetime',
         'attendance_date' => 'date',
     ];
+
+    public function member()
+    {
+        // Assuming member_id is the foreign key in your attendances table
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }
