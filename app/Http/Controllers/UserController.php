@@ -167,8 +167,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if ($user->image && Storage::disk('public')->exists($user->image)) {
-            Storage::disk('public')->delete($user->image);
+        if ($user->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($user->image)) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($user->image);
         }
         $user->delete();
 
