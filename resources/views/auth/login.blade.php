@@ -10,13 +10,15 @@
     <meta name="keywords"
         content="gym management system, fitness portal, gym membership online, online gym booking, fitness tracking app, gym attendance system, personal training portal, gym payment online, sky fitness gym, skyfitnessgym, fitness progress tracker, workout planner online">
     <meta name="author" content="skyfitnessgym.com">
-    <link rel="icon" href="{{ asset('public/assets/images/favicon.png')}}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('public/assets/images/favicon.png')}}" type="image/x-icon">
+    @php
+        $faviconPath = \App\Models\Setting::get('favicon', 'assets/images/favicon.png');
+    @endphp
+    <link rel="icon" href="{{ asset('public/' . $faviconPath) }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('public/' . $faviconPath) }}" type="image/x-icon">
     <title>Sky Fitness Gym – Premium Gym Portal</title>
 
     <!-- Your existing styles + assets -->
-    <link rel="icon" href="{{ asset('public/assets/images/favicon.png') }}" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&display=swap"
         rel="stylesheet">
@@ -388,3 +390,4 @@
 </body>
 
 </html>
+

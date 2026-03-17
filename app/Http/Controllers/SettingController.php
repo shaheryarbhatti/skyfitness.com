@@ -18,6 +18,7 @@ class SettingController extends Controller
             'login_logo'     => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'admin_logo'     => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'login_bg_image' => 'nullable|image|mimes:png,jpg,jpeg|max:4096',
+            'favicon'        => 'nullable|mimes:png,ico|max:1024',
             'theme_primary' => ['nullable', 'regex:/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/'],
             'theme_primary_text' => ['nullable', 'regex:/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/'],
             'theme_secondary' => ['nullable', 'regex:/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/'],

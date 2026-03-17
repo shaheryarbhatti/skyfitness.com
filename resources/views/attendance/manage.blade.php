@@ -7,8 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sky Fitness Gym – premium gym portal.">
     <meta name="author" content="skyfitnessgym.com">
-    <link rel="icon" href="{{ asset('public/assets/images/favicon.png')}}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('public/assets/images/favicon.png')}}" type="image/x-icon">
     <title>{{ __('attendance_logs') }}</title>
 
 @extends('layouts.app')
@@ -250,3 +248,4 @@ $(document).ready(function() {
 });
 </script>
 @endpush
+

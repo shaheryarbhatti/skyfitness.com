@@ -12,8 +12,6 @@
     <meta name="keywords"
         content="gym management system, fitness portal, gym membership online, online gym booking, fitness tracking app, gym attendance system, personal training portal, gym payment online, sky fitness gym, skyfitnessgym, fitness progress tracker, workout planner online">
     <meta name="author" content="skyfitnessgym.com">
-    <link rel="icon" href="{{ asset('public/assets/images/favicon.png')}}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('public/assets/images/favicon.png')}}" type="image/x-icon">
     <title>{{ __('manage_role') }}</title>
 
     @extends('layouts.app')
@@ -202,3 +200,4 @@
     </script>
     @endpush
     @endsection
+

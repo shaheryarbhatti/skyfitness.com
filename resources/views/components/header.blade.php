@@ -1,4 +1,10 @@
 <!-- Google font -->
+@php
+    $faviconPath = \App\Models\Setting::get('favicon', 'assets/images/favicon.png');
+@endphp
+<link rel="icon" href="{{ asset('public/' . $faviconPath) }}" type="image/x-icon">
+<link rel="shortcut icon" href="{{ asset('public/' . $faviconPath) }}" type="image/x-icon">
+
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&amp;display=swap"
@@ -176,10 +182,7 @@
                                         <i class="flag-icon flag-icon-us"></i>
                                         <span class="lang-txt box-col-none">EN</span>
                                         @elseif (app()->getLocale() === 'id')
-                                        <span class="d-inline-block" style="width: 20px; height: 14px; border-radius: 2px; overflow: hidden; border: 1px solid rgba(0,0,0,0.12);">
-                                            <span style="display:block; height: 50%; background: #ce1126;"></span>
-                                            <span style="display:block; height: 50%; background: #ffffff;"></span>
-                                        </span>
+                                        <i class="flag-icon flag-icon-id"></i>
                                         <span class="lang-txt box-col-none">IDR</span>
                                         @else
                                         <!-- Fallback to English -->
@@ -203,10 +206,7 @@
                                         data-value="id">
                                         <a href="{{ route('language.switch', 'id') }}"
                                             style="display: flex; align-items: center; gap: 8px;">
-                                            <span class="d-inline-block" style="width: 20px; height: 14px; border-radius: 2px; overflow: hidden; border: 1px solid rgba(0,0,0,0.12);">
-                                                <span style="display:block; height: 50%; background: #ce1126;"></span>
-                                                <span style="display:block; height: 50%; background: #ffffff;"></span>
-                                            </span>
+                                            <i class="flag-icon flag-icon-id"></i>
                                             <span class="lang-txt">Bahasa Indonesia</span>
                                         </a>
                                     </div>
@@ -258,3 +258,4 @@
         <!-- Page Header Ends                              -->
         <!-- Page body Start -->
         <div class="page-body-wrapper">
+

@@ -7,9 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sky Fitness Gym – premium gym portal.">
     <meta name="author" content="skyfitnessgym.com">
-    <link rel="icon" href="{{ asset('public/assets/images/favicon.png')}}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('public/assets/images/favicon.png')}}" type="image/x-icon">
-
     <title>{{ __('system_settings') }}</title>
 
 @extends('layouts.app')
@@ -57,6 +54,15 @@
                                     <div class="preview-box border p-2 text-center bg-light">
                                         <img src="{{ asset('public/' .\App\Models\Setting::get('login_bg_image', 'public/assets/images/login/bg.jpg')) }}"
                                              style="max-height: 80px; width: 100%; object-fit: cover;">
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4 col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Favicon</label>
+                                    <input type="file" name="favicon" class="form-control mb-2" accept="image/png,image/x-icon,image/vnd.microsoft.icon">
+                                    <div class="preview-box border p-2 text-center bg-light">
+                                        <img src="{{ asset('public/' .\App\Models\Setting::get('favicon', 'assets/images/favicon.png')) }}"
+                                             style="max-height: 48px; width: auto;">
                                     </div>
                                 </div>
                             </div>
@@ -140,3 +146,4 @@
     })();
 </script>
 @endsection
+
