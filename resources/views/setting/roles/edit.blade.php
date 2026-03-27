@@ -181,6 +181,37 @@
                                                                 {{ in_array('members.download_card', $rolePermissions) ? 'checked' : '' }}>
                                                             <span>{{ __('permission_download_card') }}</span>
                                                         </label>
+                                                        <label class="form-check small d-flex align-items-center gap-2">
+                                                            <input class="form-check-input action-checkbox" type="checkbox"
+                                                                name="permissions[]" value="members.export"
+                                                                {{ in_array('members.export', $rolePermissions) ? 'checked' : '' }}>
+                                                            <span>{{ __('permission_export_members') }}</span>
+                                                        </label>
+                                                        <label class="form-check small d-flex align-items-center gap-2">
+                                                            <input class="form-check-input action-checkbox" type="checkbox"
+                                                                name="permissions[]" value="members.documentation"
+                                                                {{ in_array('members.documentation', $rolePermissions) ? 'checked' : '' }}>
+                                                            <span>{{ __('permission_system_documentation') }}</span>
+                                                        </label>
+                                                        <label class="form-check small d-flex align-items-center gap-2">
+                                                            <input class="form-check-input action-checkbox" type="checkbox"
+                                                                name="permissions[]" value="members.delete_all"
+                                                                {{ in_array('members.delete_all', $rolePermissions) ? 'checked' : '' }}>
+                                                            <span>{{ __('permission_delete_all_members') }}</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            @if($module->permission === 'trainers')
+                                                <div class="mt-3 pt-3 border-top">
+                                                    <div class="text-muted small fw-semibold mb-2">{{ __('trainer_actions') }}</div>
+                                                    <div class="d-flex flex-wrap gap-2">
+                                                        <label class="form-check small d-flex align-items-center gap-2">
+                                                            <input class="form-check-input action-checkbox" type="checkbox"
+                                                                name="permissions[]" value="trainers.delete_all"
+                                                                {{ in_array('trainers.delete_all', $rolePermissions) ? 'checked' : '' }}>
+                                                            <span>{{ __('permission_delete_all_trainers') }}</span>
+                                                        </label>
                                                     </div>
                                                 </div>
                                             @endif
@@ -221,4 +252,3 @@
     });
     </script>
     @endsection
-
