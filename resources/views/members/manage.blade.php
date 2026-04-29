@@ -75,6 +75,17 @@
                         </div>
                         @endif
 
+                        <div class="row g-3 align-items-end mb-3">
+                            <div class="col-sm-12 col-md-4 col-lg-3">
+                                <label for="memberStatusFilter" class="form-label fw-semibold mb-1">{{ __('status') }}</label>
+                                <select id="memberStatusFilter" class="form-select">
+                                    <option value="">{{ __('all') }}</option>
+                                    <option value="1">{{ __('active') }}</option>
+                                    <option value="0">{{ __('inactive') }}</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="table-responsive custom-scrollbar mb-4">
                             <table id="membersTable" class="display table table-hover table-bordered" style="width:100%">
                                 <thead class="table-light">
@@ -522,10 +533,15 @@
 
     <script>
     $(document).ready(function() {
-        $('#membersTable').DataTable({
+        const membersTable = $('#membersTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('members.manage') }}",
+            ajax: {
+                url: "{{ route('members.manage') }}",
+                data: function(d) {
+                    d.status_filter = $('#memberStatusFilter').val();
+                }
+            },
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
@@ -586,6 +602,10 @@
             responsive: true,
             dom: '<"row mb-3"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>tip',
             // dom option adds space between search/filter and table
+        });
+
+        $('#memberStatusFilter').on('change', function() {
+            membersTable.ajax.reload();
         });
     });
 

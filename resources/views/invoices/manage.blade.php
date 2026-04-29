@@ -56,6 +56,14 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4">
+                                    <select id="invoiceExpiryFilter" class="form-select">
+                                        <option value="">All Expiry</option>
+                                        <option value="expired">Expired</option>
+                                        <option value="active">Not Expired</option>
+                                        <option value="expire_soon">Expire Soon (3 Days)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
                                     <input type="date" id="invoiceStartDate" class="form-control" placeholder="{{ __('start_date') }}">
                                 </div>
                                 <div class="col-md-4">
@@ -333,6 +341,7 @@
                 data: function (d) {
                     d.invoice_type = $('#invoiceTypeFilter').val();
                     d.status = $('#invoiceStatusFilter').val();
+                    d.expiry_filter = $('#invoiceExpiryFilter').val();
                     d.start_date = $('#invoiceStartDate').val();
                     d.end_date = $('#invoiceEndDate').val();
                 }
@@ -401,6 +410,10 @@
         });
 
         $('#invoiceStatusFilter').on('change', function () {
+            table.ajax.reload();
+        });
+
+        $('#invoiceExpiryFilter').on('change', function () {
             table.ajax.reload();
         });
 

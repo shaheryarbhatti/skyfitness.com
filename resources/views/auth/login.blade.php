@@ -435,6 +435,17 @@
                             <input type="file" class="form-control" id="barcodeImageInput" accept="image/*">
                             <small class="text-muted d-block mt-2">Upload a clear photo of the barcode to decode.</small>
                         </div>
+                        <div class="mt-3">
+                            <label class="col-form-label">Scan QR code with camera / webcam</label>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button type="button" class="btn btn-outline-primary" id="startQrScannerBtn">Start Camera Scan</button>
+                                <button type="button" class="btn btn-outline-danger d-none" id="stopQrScannerBtn">Stop Camera</button>
+                            </div>
+                            <div class="border rounded mt-3 p-2 bg-light d-none" id="qrScannerWrap">
+                                <video id="qrScannerPreview" class="w-100 rounded" autoplay muted playsinline style="max-height: 260px; object-fit: cover;"></video>
+                            </div>
+                            <small class="text-muted d-block mt-2">Point your card QR code at the camera to login automatically.</small>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
@@ -452,8 +463,55 @@
     const manualInput = document.getElementById('barcodeManualInput');
     const imageInput = document.getElementById('barcodeImageInput');
     const submitManual = document.getElementById('barcodeSubmitManual');
+    const startQrScannerBtn = document.getElementById('startQrScannerBtn');
+    const stopQrScannerBtn = document.getElementById('stopQrScannerBtn');
+    const qrScannerWrap = document.getElementById('qrScannerWrap');
+    const qrScannerPreview = document.getElementById('qrScannerPreview');
     let lastDetected = '';
     let zxingReader;
+    let cameraScanActive = false;
+
+    const setHint = (message) => {
+        const hint = document.getElementById('barcodeHint');
+        if (hint) {
+            hint.textContent = message;
+        }
+    };
+
+    const ensureZXing = async () => {
+        if (window.ZXing && window.ZXing.BrowserMultiFormatReader) {
+            return true;
+        }
+        const scriptId = 'zxing-script';
+        if (!document.getElementById(scriptId)) {
+            const script = document.createElement('script');
+            script.id = scriptId;
+            script.src = "{{ asset('public/assets/js/vendors/zxing.min.js') }}";
+            script.async = true;
+            document.head.appendChild(script);
+            await new Promise((resolve) => {
+                script.onload = resolve;
+                script.onerror = resolve;
+            });
+        }
+        return !!(window.ZXing && window.ZXing.BrowserMultiFormatReader);
+    };
+
+    const resetCameraUi = () => {
+        cameraScanActive = false;
+        if (qrScannerWrap) {
+            qrScannerWrap.classList.add('d-none');
+        }
+        if (stopQrScannerBtn) {
+            stopQrScannerBtn.classList.add('d-none');
+        }
+        if (startQrScannerBtn) {
+            startQrScannerBtn.disabled = false;
+        }
+        if (qrScannerPreview) {
+            qrScannerPreview.srcObject = null;
+        }
+    };
 
     const stopStream = () => {
         if (zxingReader) {
@@ -463,6 +521,7 @@
                 // ignore reset errors
             }
         }
+        resetCameraUi();
     };
 
     const handleDetected = (value) => {
@@ -482,10 +541,8 @@
         if (imageInput) {
             imageInput.value = '';
         }
-        const hint = document.getElementById('barcodeHint');
-        if (hint) {
-            hint.textContent = 'Upload a barcode image or enter the barcode manually.';
-        }
+        stopStream();
+        setHint('Upload a barcode image, scan a QR code with camera, or enter the barcode manually.');
     });
 
     barcodeModalEl.addEventListener('hidden.bs.modal', () => {
@@ -508,28 +565,7 @@
             if (!file) {
                 return;
             }
-            const hint = document.getElementById('barcodeHint');
-            if (hint) {
-                hint.textContent = 'Decoding barcode image...';
-            }
-            const ensureZXing = async () => {
-                if (window.ZXing && window.ZXing.BrowserMultiFormatReader) {
-                    return true;
-                }
-                const scriptId = 'zxing-script';
-                if (!document.getElementById(scriptId)) {
-                    const script = document.createElement('script');
-                    script.id = scriptId;
-                    script.src = "{{ asset('public/assets/js/vendors/zxing.min.js') }}";
-                    script.async = true;
-                    document.head.appendChild(script);
-                    await new Promise((resolve) => {
-                        script.onload = resolve;
-                        script.onerror = resolve;
-                    });
-                }
-                return !!(window.ZXing && window.ZXing.BrowserMultiFormatReader);
-            };
+            setHint('Decoding barcode image...');
 
             const ready = await ensureZXing();
 
@@ -552,13 +588,11 @@
 
             const jsqrReady = await ensureJsQR();
             if (!ready && !jsqrReady) {
-                if (hint) {
-                    hint.textContent = 'Unable to load barcode decoder. Please type the barcode manually.';
-                }
+                setHint('Unable to load barcode decoder. Please type the barcode manually.');
                 return;
             }
 
-            zxingReader = zxingReader || (window.ZXing ? new window.ZXing.BrowserQRCodeReader() : null);
+            zxingReader = zxingReader || (window.ZXing ? new window.ZXing.BrowserMultiFormatReader() : null);
             const imageUrl = URL.createObjectURL(file);
             const image = new Image();
             image.onload = async () => {
@@ -645,23 +679,80 @@
                         return;
                     }
 
-                    if (hint) {
-                        hint.textContent = 'No barcode detected in the image. Please try another photo.';
-                    }
+                    setHint('No barcode detected in the image. Please try another photo.');
                 } catch (err) {
                     URL.revokeObjectURL(imageUrl);
-                    if (hint) {
-                        hint.textContent = 'No barcode detected in the image. Please try another photo.';
-                    }
+                    setHint('No barcode detected in the image. Please try another photo.');
                 }
             };
             image.onerror = () => {
                 URL.revokeObjectURL(imageUrl);
-                if (hint) {
-                    hint.textContent = 'Unable to read the image. Please try another photo.';
-                }
+                setHint('Unable to read the image. Please try another photo.');
             };
             image.src = imageUrl;
+        });
+    }
+
+    if (startQrScannerBtn) {
+        startQrScannerBtn.addEventListener('click', async () => {
+            setHint('Starting camera scanner...');
+
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                setHint('Camera access is not supported in this browser. Please upload the card image or enter the barcode manually.');
+                return;
+            }
+
+            const ready = await ensureZXing();
+            if (!ready) {
+                setHint('Unable to load QR scanner. Please upload the card image or enter the barcode manually.');
+                return;
+            }
+
+            stopStream();
+            zxingReader = zxingReader || new window.ZXing.BrowserMultiFormatReader();
+
+            try {
+                cameraScanActive = true;
+                qrScannerWrap.classList.remove('d-none');
+                stopQrScannerBtn.classList.remove('d-none');
+                startQrScannerBtn.disabled = true;
+                setHint('Camera is active. Hold the QR code steady in front of the webcam.');
+
+                await zxingReader.decodeFromVideoDevice(null, qrScannerPreview, (result, err) => {
+                    if (result && result.text) {
+                        handleDetected(result.text);
+                        return;
+                    }
+
+                    if (!err || !window.ZXing) {
+                        return;
+                    }
+
+                    const ignoredErrors = [
+                        window.ZXing.NotFoundException,
+                        window.ZXing.ChecksumException,
+                        window.ZXing.FormatException,
+                    ].filter(Boolean);
+
+                    if (ignoredErrors.some((ErrorType) => err instanceof ErrorType)) {
+                        return;
+                    }
+
+                    if (cameraScanActive) {
+                        setHint('Scanner is running, but the QR code could not be read yet. Adjust distance or lighting and try again.');
+                    }
+                });
+            } catch (error) {
+                stopStream();
+                setHint('Unable to access the camera. Please allow webcam permission or use image upload/manual entry.');
+            }
+        });
+    }
+
+    if (stopQrScannerBtn) {
+        stopQrScannerBtn.addEventListener('click', () => {
+            stopStream();
+            setHint('Camera scanner stopped. You can upload the card image, restart camera scan, or enter the barcode manually.');
         });
     }
 
